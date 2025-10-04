@@ -1,10 +1,12 @@
 import kebabHero from "../assets/images/kebab-hero.png";
 import { Link } from "react-router-dom";
+import ProductList from "../components/ProductList";
 
 const Homepage = () => {
   return (
     <div className="homepage pb-20 bg-gradient-to-b from-orange-50 to-white">
       <div className="container mx-auto px-4">
+        {/* Hero Section */}
         <div className="hero pt-32 grid grid-cols-1 md:grid-cols-2 items-center gap-16">
           {/* Text Box */}
           <div className="box text-center md:text-left">
@@ -41,6 +43,12 @@ const Homepage = () => {
               className="w-80 md:w-[450px] drop-shadow-lg"
             />
           </div>
+        </div>
+
+        {/* Product List Section (dipindah ke luar hero grid) */}
+        <div className="mt-20">
+         
+          <ProductList />
         </div>
       </div>
     </div>
