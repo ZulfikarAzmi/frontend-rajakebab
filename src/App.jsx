@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import Homepage from "./pages/Homepage";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <>
             <Navbar />
             <Homepage />
+            <About />
           </>
         }
       />
@@ -28,6 +30,15 @@ function App() {
           <>
             <Navbar />
             <Dashboard />
+          </>
+        }
+      />
+      <Route
+        path="/tentang"
+        element={
+          <>
+            <Navbar />
+            <About />
           </>
         }
       />
