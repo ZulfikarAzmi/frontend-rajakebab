@@ -4,12 +4,17 @@ import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import Homepage from "./pages/Homepage";
 import About from "./pages/About";
+import Register from "./pages/Register";
+import UserDashboard from "./pages/UserDashboard";
+import LoginAdmin from "./pages/LoginAdmin";
 
 function App() {
   return (
     <Routes>
       {/* Login Page */}
       <Route path="/login" element={<Login />} />
+      <Route path="/admin/login" element={<LoginAdmin />} />
+      <Route path="/register" element={<Register />} />
 
       {/* Homepage */}
       <Route
@@ -30,6 +35,15 @@ function App() {
           <>
             <Navbar />
             <Dashboard />
+          </>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <>
+            <Navbar />
+            <UserDashboard />
           </>
         }
       />

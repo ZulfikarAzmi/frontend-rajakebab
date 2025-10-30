@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = () => {
+const LoginAdmin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +16,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/login",
+        "http://localhost:8080/api/admin/login",
         { email, password },
         {
           headers: {
@@ -29,7 +29,7 @@ const Login = () => {
       console.log("Response:", response.data);
 
       // kalau login berhasil, langsung redirect
-      navigate("/dashboard");
+      navigate("/admin/dashboard");
     } catch (err) {
       console.error("Login error:", err);
       setError(
@@ -46,7 +46,7 @@ const Login = () => {
         onSubmit={handleLogin}
         className="bg-white p-6 rounded shadow-md w-full max-w-sm"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Login Admin</h2>
 
         {error && (
           <div className="mb-4 p-2 text-sm text-red-700 bg-red-100 rounded">
@@ -90,4 +90,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginAdmin;
