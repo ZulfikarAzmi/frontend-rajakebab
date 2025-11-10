@@ -1,52 +1,58 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/me", {
+          withCredentials: true, 
+        });
+        setUser(res.data);
+      } catch {
+        setUser(null);
+      }
+    };
+    fetchMe();
+  }, []);
+
+  const handleLogout = async () => {
+    await axios.post("http://localhost:8080/api/logout", {}, { withCredentials: true });
+    setUser(null);
+    window.location.href = "/login"; 
+  };
 
   return (
-    <div className="navbar fixed w-full transition-all shadow z-50">
-      <div className="container mx-auto px-4">
-        <div className="navbar-box flex items-center justify-between py-4">
-          {/* Logo */}
-          <div className="navbar-logo">
-            <h1 className="text-2xl font-bold">RajaKebab</h1>
-          </div>
+    <nav className="fixed top-0 left-0 w-full z-50 bg-orange-600 text-white px-6 py-4 flex justify-between items-center shadow-md">
+      <h1 className="text-2xl font-bold">Raja Kebab</h1>
 
-          {/* Menu Desktop */}
-          <ul className="hidden md:flex gap-8">
-            <li><Link to="/" className="font-medium opacity-75 hover:opacity-100">Beranda</Link></li>
-            <li><Link to="/tentang" className="font-medium opacity-75 hover:opacity-100">Tentang Kami</Link></li>
-            <li><Link to="/produk" className="font-medium opacity-75 hover:opacity-100">Daftar Produk</Link></li>
-            <li><Link to="/promo" className="font-medium opacity-75 hover:opacity-100">Promo</Link></li>
-          </ul>
+      <div className="space-x-6">
+        <a href="/" className="hover:text-yellow-400 transition">Home</a>
 
-          {/* Login Desktop */}
-          <div className="hidden md:block">
-            <Link to="/login" className="font-medium hover:underline">Login</Link>
-          </div>
-
-          {/* Hamburger Button */}
-          <button
-            className="md:hidden text-2xl"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            ☰
-          </button>
-        </div>
-
-        {/* Menu Mobile */}
-        {isOpen && (
-          <div className="md:hidden flex flex-col gap-4 pb-4">
-            <Link to="/" className="font-medium opacity-75 hover:opacity-100">Beranda</Link>
-            <Link to="/tentang" className="font-medium opacity-75 hover:opacity-100">Tentang Kami</Link>
-            <Link to="/produk" className="font-medium opacity-75 hover:opacity-100">Daftar Produk</Link>
-            <Link to="/promo" className="font-medium opacity-75 hover:opacity-100">Promo</Link>
-            <Link to="/login" className="font-medium hover:underline">Login</Link>
-          </div>
+        {!user ? (
+          <>
+            <a href="/login" className="hover:text-yellow-400 transition">Login</a>
+            <a href="/register" className="hover:text-yellow-400 transition">Register</a>
+          </>
+        ) : (
+          <>
+            {user.role === "admin" ? (
+              <a href="/admin/dashboard" className="hover:text-yellow-400 transition">Dashboard</a>
+            ) : (
+              <a href="/dashboard" className="hover:text-yellow-400 transition">Dashboard</a>
+            )}
+            <button
+              onClick={handleLogout}
+              className="hover:text-red-400 transition"
+            >
+              Logout
+            </button>
+          </>
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 
